@@ -20,6 +20,8 @@ export class DishdetailComponent implements OnInit {
   prev: number;
   next: number;
 
+  errorMessage: string;
+
   commentForm: FormGroup;
 
   formErrors = { author: '', comment: '' };
@@ -48,13 +50,16 @@ export class DishdetailComponent implements OnInit {
     const id = +this.route.snapshot.params['id'];
     this.dishService
       .getDish(id)
-      .subscribe(dish => this.dish = dish);
+      .subscribe(
+        dish => this.dish = dish,
+        error => this.errorMessage = error
+      );
 
     this.dishService
       .getDishIds()
       .subscribe(dishIds => this.dishIds = dishIds);
     this.route.params
-      .switchMap((params: Params) => this.dishService.getDish(+params['id']))
+      .switchMap(params => this.dishService.getDish(+params['id']))
       .subscribe(dish => {
         this.dish = dish;
         this.setPrevNext(dish.id);

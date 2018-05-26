@@ -23,6 +23,7 @@ import { ContactComponent } from './contact/contact.component';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
+import { HttpHandlingService } from './services/http-handling.service';
 
 import { baseURL } from './shared/baseurl';
 
@@ -52,6 +53,7 @@ import { baseURL } from './shared/baseurl';
     DishService,
     LeaderService,
     PromotionService,
+    HttpHandlingService,
     { provide: 'BaseURL', useValue: baseURL }
   ],
   entryComponents: [
