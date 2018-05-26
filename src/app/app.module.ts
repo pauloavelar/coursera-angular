@@ -27,6 +27,9 @@ import { HttpHandlingService } from './services/http-handling.service';
 
 import { baseURL } from './shared/baseurl';
 
+import { RestangularModule } from 'ngx-restangular';
+import { RestangularConfigFactory } from './shared/rest-config';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +50,8 @@ import { baseURL } from './shared/baseurl';
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RestangularModule.forRoot(RestangularConfigFactory)
   ],
   providers: [
     DishService,
