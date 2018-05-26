@@ -1,20 +1,27 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Leader } from '../shared/leader';
-import { LEADERS } from '../shared/leaders';
 import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class LeaderService {
 
+  constructor(
+    private http: HttpClient,
+    @Inject('BaseURL') private baseURL: string
+  ) { }
+
   getLeaders(): Observable<Leader[]> {
-    return Observable.of(LEADERS).delay(2000);
+    return this.http
+      .get<Leader[]>(`${this.baseURL}leaders`);
   }
 
   getFeaturedLeader(): Observable<Leader> {
-    return Observable.of(LEADERS.find(leader => leader.featured)).delay(2000);
+    return this.http
+      .get<Leader[]>(`${this.baseURL}leaders?featured=true`)
+      .map(leaders => leaders[0]);
   }
 
 }

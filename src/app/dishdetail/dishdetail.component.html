@@ -13,7 +13,7 @@
           <h3>{{ dish.name | uppercase }}</h3>
         </mat-card-title>
       </mat-card-header>
-      <img mat-card-image [src]="dish.image" [alt]="dish.name">
+      <img mat-card-image [src]="baseURL + dish.image" [alt]="dish.name">
       <mat-card-content>
         <p>{{ dish.description }}</p>
       </mat-card-content>
@@ -32,13 +32,47 @@
   </div>
 
   <div fxFlex="40" *ngIf="dish">
+    <h3>Comments</h3>
     <mat-list>
       <mat-list-item *ngFor="let comment of dish.comments">
         <p matLine>{{ comment.comment }}</p>
         <p matLine>{{ comment.rating }} Stars</p>
         <p matLine>-- {{ comment.author }} {{ comment.date | date }}</p>
       </mat-list-item>
+      <mat-list-item *ngIf="commentForm.valid">
+        <p matLine>{{ commentForm.get('comment').value }}</p>
+        <p matLine>{{ commentForm.get('rating').value }} Stars</p>
+        <p matLine>-- {{ commentForm.get('author').value }}</p>
+      </mat-list-item>
     </mat-list>
+
+    <form novalidate fxLayout="column" fxFlex="0 0 0%"
+      fxLayoutGap="5px" [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+      <mat-input-container [dividerColor]="formErrors.author ? 'warn' : 'primary'">
+        <input matInput type="text" formControlName="author" placeholder="Name" required>
+        <mat-hint>
+          <span [hidden]="!formErrors.author">{{ formErrors.author }}</span>
+        </mat-hint>
+      </mat-input-container>
+      <div matLine>
+        <mat-slider formControlName="rating" thumbLabel
+          min="1" max="5" step="1" value="5" tickInterval="1">
+        </mat-slider>
+      </div>
+      <mat-input-container [dividerColor]="formErrors.comment ? 'warn' : 'primary'">
+        <textarea matInput formControlName="comment" placeholder="Your Comment" rows="3"></textarea>
+        <mat-hint>
+          <span [hidden]="!formErrors.comment">{{ formErrors.comment }}</span>
+        </mat-hint>
+      </mat-input-container>
+      <div matLine>
+        <button type="submit"
+          mat-button class="background-primary text-floral-white"
+          [disabled]="commentForm.invalid">
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
 
 </div>
