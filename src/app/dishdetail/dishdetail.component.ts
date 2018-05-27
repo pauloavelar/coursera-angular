@@ -1,19 +1,22 @@
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
-import { Params, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { visibility, expand } from '../app.animations';
 
 import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations: [ visibility(), expand() ]
 })
 export class DishdetailComponent implements OnInit {
+
+  visibility = 'shown';
 
   dish: Dish;
   dishIds: number[];
@@ -52,11 +55,13 @@ export class DishdetailComponent implements OnInit {
 
     this.route.params
       .switchMap(params => {
+        this.visibility = 'hidden';
         return this.dishService.getDish(+params['id'])
       })
       .subscribe(dish => {
         this.dish = dish;
         this.setPrevNext(dish.id);
+        this.visibility = 'shown';
       },
       error => {
         this.dish = null;

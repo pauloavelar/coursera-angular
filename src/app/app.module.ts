@@ -46,10 +46,10 @@ import { HighlightDirective } from './directives/highlight.directive';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
     AppRoutingModule,
