@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { Promotion } from '../shared/promotion';
-import { PROMOTIONS } from '../shared/promotions';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+
 import { HttpClient } from '@angular/common/http';
 import { HttpHandlingService } from './http-handling.service';
 

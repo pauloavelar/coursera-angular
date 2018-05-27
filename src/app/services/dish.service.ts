@@ -10,22 +10,24 @@ import 'rxjs/add/operator/map';
 export class DishService {
 
   RESOURCE = 'dishes';
+  dishes: Restangular;
 
   constructor(
     private rest: Restangular
-  ) { }
+  ) {
+    this.dishes = this.rest.service(this.RESOURCE);
+  }
 
   getDishes(): Observable<Dish[]> {
-    return this.rest.all(this.RESOURCE).getList();
+    return this.dishes.getList();
   }
 
   getDish(id: number): Observable<Dish> {
-    return this.rest.one(this.RESOURCE, id).get();
+    return this.dishes.get(id);
   }
 
   getFeaturedDish(): Observable<Dish> {
-    return this.rest
-      .all(this.RESOURCE)
+    return this.dishes
       .getList({ featured: true })
       .map(results => results[0]);
   }
@@ -33,6 +35,10 @@ export class DishService {
   getDishIds(): Observable<number[]> {
     return this.getDishes()
       .map(dishes => dishes.map(dish => dish.id));
+  }
+
+  save(dish: Dish): Observable<Dish> {
+    return (dish as any).save(dish);
   }
 
 }

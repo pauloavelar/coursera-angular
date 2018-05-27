@@ -81,6 +81,18 @@
           "comment": "It's your birthday, we're gonna party!",
           "author": "25 Cent",
           "date": "2011-12-02T17:57:28.556094Z"
+        },
+        {
+          "date": "2018-05-27T15:32:25.055Z",
+          "author": "Testing save",
+          "rating": 5,
+          "comment": "Save me please!"
+        },
+        {
+          "date": "2018-05-27T15:35:13.600Z",
+          "author": "Paulo",
+          "rating": 3,
+          "comment": "Great dish! Or is it?"
         }
       ]
     },

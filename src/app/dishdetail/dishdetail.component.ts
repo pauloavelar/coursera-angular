@@ -47,22 +47,20 @@ export class DishdetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    const id = +this.route.snapshot.params['id'];
-    this.dishService
-      .getDish(id)
-      .subscribe(
-        dish => this.dish = dish,
-        error => this.errorMessage = error
-      );
-
-    this.dishService
-      .getDishIds()
+    this.dishService.getDishIds()
       .subscribe(dishIds => this.dishIds = dishIds);
+
     this.route.params
-      .switchMap(params => this.dishService.getDish(+params['id']))
+      .switchMap(params => {
+        return this.dishService.getDish(+params['id'])
+      })
       .subscribe(dish => {
         this.dish = dish;
         this.setPrevNext(dish.id);
+      },
+      error => {
+        this.dish = null;
+        this.errorMessage = error;
       });
   }
 
@@ -97,11 +95,21 @@ export class DishdetailComponent implements OnInit {
     });
   }
 
+  // Not using direct .save() because it requires typing my Dish as any.
+  // I also refuse to use the dishcopy because it is not actually copying anything at all.
   onSubmitComment() {
     this.dish.comments.push({
       date: new Date().toISOString(),
       ...this.commentForm.value
     });
+    this.dishService.save(this.dish)
+      .subscribe(
+        dish => this.dish = dish,
+        error => {
+          this.errorMessage = error;
+          this.dish = null;
+        }
+      );
     this.commentForm.reset({
       author: '',
       rating: 5,
