@@ -40,5 +40,12 @@ body {
 }
 
 .flex-spacer {
-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.highlight {
+  background-color: $background-pale;
+  border: 1px solid $primary-color-dark;
+  transform: scale(1.01);
+  z-index: 1;
 }
